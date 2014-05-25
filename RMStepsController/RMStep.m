@@ -27,7 +27,10 @@
 #import "RMStep.h"
 
 @interface RMStep ()
-
+{
+    UIFont *_stepTitleFont;
+    UIFont *_numberFont;
+}
 @property (nonatomic, strong, readwrite) UIView *stepView;
 @property (nonatomic, strong, readwrite) UILabel *numberLabel;
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
@@ -69,7 +72,7 @@
         _numberLabel.textColor = self.disabledTextColor;
         _numberLabel.textAlignment = NSTextAlignmentCenter;
         _numberLabel.backgroundColor = [UIColor clearColor];
-        _numberLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+        _numberLabel.font = self.numberFont;
         _numberLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -83,7 +86,7 @@
         _titleLabel.textColor = self.disabledTextColor;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+        _titleLabel.font = self.stepTitleFont;
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -159,6 +162,38 @@
     }
     
     return _disabledTextColor;
+}
+
+- (UIFont *)stepTitleFont
+{
+    if(!_stepTitleFont) {
+        self.stepTitleFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+    }
+
+    return _stepTitleFont;
+}
+
+- (UIFont *)numberFont
+{
+    if(!_numberFont) {
+        self.numberFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+    }
+    
+    return _numberFont;
+}
+
+- (void)setStepTitleFont:(UIFont *)stepTitleFont
+{
+    _stepTitleFont = stepTitleFont;
+    
+    self.titleLabel.font = stepTitleFont;
+}
+
+- (void)setNumberFont:(UIFont *)numberFont
+{
+    _numberFont = numberFont;
+    
+    self.numberLabel.font = numberFont;
 }
 
 @end

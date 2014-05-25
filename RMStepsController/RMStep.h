@@ -67,4 +67,16 @@
  */
 @property (nonatomic, strong) UIColor *disabledTextColor;
 
+/**
+ Provides access to the title text font of this step as it is used by an instance of `RMStepsBar`.
+ */
+@property (nonatomic, strong) UIFont *stepTitleFont;
+
+/**
+ Provides access to the number text font of this step as it is used by an instance of `RMStepsBar`.
+ */
+@property (nonatomic, strong) UIFont *numberFont;
+
+
+
 @end
