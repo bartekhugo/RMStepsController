@@ -68,6 +68,18 @@
 @implementation RMStepSeperatorView
 
 #pragma mark - Init and Dealloc
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if(self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.layer addSublayer:self.leftShapeLayer];
+        [self.layer addSublayer:self.rightShapeLayer];
+    }
+    return self;
+}
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self) {
@@ -177,7 +189,7 @@
     [bezier addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height/2)];
     [bezier addLineToPoint:CGPointMake(0, self.frame.size.height)];
     
-    [bezier setLineWidth:1.0];
+    [bezier setLineWidth:10.0];
     [bezier setLineJoinStyle:kCGLineJoinBevel];
     
     [self.seperatorColor setStroke];
@@ -215,6 +227,34 @@
 @implementation RMStepsBar
 
 @synthesize seperatorColor = _seperatorColor;
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self) {
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        self.clipsToBounds = YES;
+        
+        [self addSubview:self.cancelButton];
+        [self addSubview:self.cancelSeperator];
+        
+        NSNumber *cancelWidth = @(RM_CANCEL_BUTTON_WIDTH);
+        
+        NSDictionary *bindingsDict = NSDictionaryOfVariableBindings(_topLine, _bottomLine, _cancelButton, _cancelSeperator);
+        NSDictionary *metricsDict = NSDictionaryOfVariableBindings(cancelWidth);
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_cancelButton(cancelWidth)]-(0)-[_cancelSeperator(1)]" options:0 metrics:metricsDict views:bindingsDict]];
+        
+        self.cancelButtonXConstraint = [[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[_cancelButton]" options:0 metrics:metricsDict views:bindingsDict] lastObject];
+        [self addConstraint:self.cancelButtonXConstraint];
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[_cancelButton(75)]-(0)-|" options:0 metrics:metricsDict views:bindingsDict]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[_cancelSeperator(75)]-(0)-|" options:0 metrics:metricsDict views:bindingsDict]];
+        
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizedTap:)]];
+    }
+    return self;
+}
 
 #pragma mark - Init and Dealloc
 - (id)initWithFrame:(CGRect)frame {
@@ -323,6 +363,7 @@
 }
 
 - (UIButton *)cancelButton {
+    
     if(!_cancelButton) {
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cancelButton setTitle:@"X" forState:UIControlStateNormal];
@@ -475,12 +516,12 @@
         NSDictionary *bindingsDict = NSDictionaryOfVariableBindings(leftEnd, rightEnd, stepView);
         NSDictionary *metricsDict = NSDictionaryOfVariableBindings(minimalStepWidth, seperatorWidth);
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[stepView(42)]-(1)-|" options:0 metrics:metricsDict views:bindingsDict]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[stepView(75)]-(0)-|" options:0 metrics:metricsDict views:bindingsDict]];
         if(rightSeperator) {
             [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[leftEnd]-(0)-[stepView]-(0)-[rightEnd]" options:0 metrics:metricsDict views:bindingsDict]];
             
             [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[rightEnd(seperatorWidth)]" options:0 metrics:metricsDict views:bindingsDict]];
-            [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rightEnd(42)]-(1)-|" options:0 metrics:metricsDict views:bindingsDict]];
+            [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rightEnd(75)]-(0)-|" options:0 metrics:metricsDict views:bindingsDict]];
         } else {
             [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[leftEnd]-(0)-[stepView]-(0)-|" options:0 metrics:metricsDict views:bindingsDict]];
         }

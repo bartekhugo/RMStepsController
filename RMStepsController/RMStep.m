@@ -59,7 +59,7 @@
         [_stepView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(40)-[titleLabel]-(0)-|" options:0 metrics:nil views:bindingsDict]];
         [_stepView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[titleLabel]-(0)-|" options:0 metrics:nil views:bindingsDict]];
         [_stepView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(11)-[numberLabel]-(9)-[titleLabel]" options:0 metrics:nil views:bindingsDict]];
-        [_stepView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[numberLabel]-(0)-|" options:0 metrics:nil views:bindingsDict]];
+        [_stepView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(3)-[numberLabel]-(0)-|" options:0 metrics:nil views:bindingsDict]];
     }
     
     return _stepView;
@@ -99,7 +99,7 @@
         
         self.circleLayer = [CAShapeLayer layer];
         _circleLayer.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 2.0*radius, 2.0*radius) cornerRadius:radius].CGPath;
-        _circleLayer.position = CGPointMake(9, 10);
+        _circleLayer.position = CGPointMake(9, 27);
         _circleLayer.fillColor = [UIColor clearColor].CGColor;
         _circleLayer.strokeColor = self.disabledTextColor.CGColor;
         _circleLayer.lineWidth = 1;
@@ -169,7 +169,7 @@
     if(!_stepTitleFont) {
         self.stepTitleFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
     }
-
+    
     return _stepTitleFont;
 }
 
